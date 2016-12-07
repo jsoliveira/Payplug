@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <div class="ContainerIndent">
+
+            <h:form id="formTransacoes">
+
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="dtInicio" value="Data Inicio"/>
+                    <p:calendar id="dtInicio"  
+                                required="true" 
+                                value="#{transacoesBean.dtInicio}"  
+                                pattern="dd/MM/yyyy" 
+                                locale="pt" 
+                                readonlyInput="true"
+                                showOn="both"
+                                />
+
+                    
+                    <p:outputLabel for="dtFinal" value="Data Final" />
+                    <p:calendar id="dtFinal"
+                                required="true"
+                                value="#{transacoesBean.dtFim}"
+                                pattern="dd/MM/yyyy"
+                                locale="pt"
+                                readonlyInput="true"
+                                showOn="both">
+
+                    </p:calendar>
+
+                    <p:selectOneMenu filter="true"  >
+                        <f:selectItem itemValue="1"  itemLabel="Empresa 1"/>
+                        <f:selectItem itemValue="2"  itemLabel="Empresa 2"/>
+                        <f:selectItem itemValue="3"  itemLabel="Empresa 3"/>
+                    </p:selectOneMenu>
+
+
+                    <p:selectOneMenu filter="true"  >
+                        <f:selectItem itemValue="1"  itemLabel="Funcionario 1"/>
+                        <f:selectItem itemValue="2"  itemLabel="Funcionario 2"/>
+                        <f:selectItem itemValue="3"  itemLabel="Funcionario 3"/>
+                    </p:selectOneMenu>
+
+
+                </h:panelGrid>
+
+                <p:commandButton  value="Buscar "  icon="fa icon-print Fs15 white" actionListener="#{transacoesBean.buscarPorPeriodo()}" 
+                                  title="Buscar transações" update="@form"/>
+
+                <p:dataTable value="#{transacoesBean.transacoes}" var="t" emptyMessage="Nenhuma transação" >
+
+                    <p:column headerText="Usuário" sortBy="#{t.idUsuario.nome}">
+                        <h:outputText value="#{t.idUsuario.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Código da Transação" sortBy="#{t.id}">
+                        <h:outputText value="#{t.id}" />
+                    </p:column>
+
+                    <p:column headerText="Operação" sortBy="#{t.idOperacao.nome}">
+                        <h:outputText value="#{t.idOperacao.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Valor" sortBy="#{t.id}">
+                        <h:outputText value="#{t.valorEmReal}" />
+                    </p:column>
+
+
+                    <p:column headerText="Data da Transacão">
+                        <h:outputText value="#{t.dataTransacao}" >
+                            <!--                            <f:convertDateTime parent="dd/MM/yyyy"/>-->
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Data Aprovação">
+                        <h:outputText value="#{t.dataAprovacao}" >
+                            <!--                            <f:convertDateTime parent="dd/MM/yyyy"/>-->
+                        </h:outputText>
+                    </p:column>
+
+
+
+                </p:dataTable>
+
+
+            </h:form>
+
+        </div>
+    </ui:define>
+
+</ui:composition>

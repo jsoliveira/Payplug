@@ -1,0 +1,33 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ps="http://primefaces.org/sentinel"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <div id="layout-menubar" class="Unselectable fontRegular">
+        <div class="layout-menubarinner-box" id="buttonArea">
+            <a href="#" id="layout-menubar-resize" class="BordRad3" title="Ocultar Menu"><i class="icon-th-list-2"></i></a>
+            <a href="#" id="layout-menubar-resize2" class="BordRad3" title="Maximizar Menu"><i class="icon-menu"></i></a>
+        </div>
+
+        <ps:menu id="sm_leftmenu" >
+
+            <p:submenu id="sm_parametros" label="Parâmetros" icon="icon-pin-outline">
+                <!--<p:menuitem id="sm_layout_padrao" value="Layout Padrão" icon="icon-pin-outline" outcome="layoutPadrao"/>-->
+             
+            </p:submenu>
+
+            <p:submenu id="sm_relatorios" label="Relatórios" icon="icon-doc-text-1">
+                <!--<p:menuitem id="sm_relatorio_excecoes" value="Relatório de Exceções" icon="icon-doc-text-1" outcome="relExcecoes"/>-->
+                <!--<p:menuitem id="sm_relatorio_sensor_temp" value="Relatório de Sensores Temperatura" icon="icon-doc-text-1" outcome="relSensorTemperatura"/>-->
+                <!--<p:menuitem id="sm_relatorio_gastos_veiculo" value="Relatório de Gastos Veiculo(s)" icon="icon-doc-text-1" outcome="relGastosVeiculo"/>-->
+            </p:submenu>
+
+        </ps:menu>
+
+    </div>
+
+</ui:composition>

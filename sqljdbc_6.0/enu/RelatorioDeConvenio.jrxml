@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioDeConvenio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="424ede09-dac6-42ea-b7c0-f6f50a81bf12">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT transacoes.id, transacoes.id_pai, transacoes.id_usuario, usuarios.nome, transacoes.id_operacao, transacoes.id_operacao_taxa, transacoes.id_estado, transacoes.valor_moeda_usuario, transacoes.data_transacao, transacoes.data_liberacao_saque, transacoes.data_cancelamento, transacoes.justificativa_cancelamento, transacoes.data_aprovacao, transacoes.data_reprovacao, transacoes.justificativa_reprovacao, transacoes.descricao, transacoes.data_pagamento, transacoes.data_vencimento, transacoes.saldo_moeda_usuario, transacoes.id_usuario_logado, transacoes.id_transacao_correspondente
+FROM TS_PayPlug.dbo.transacoes transacoes,
+TS_PayPlug.dbo.usuarios usuarios
+WHERE transacoes.id_usuario = usuarios.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="id_pai" class="java.lang.Integer"/>
+	<field name="id_usuario" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="id_operacao" class="java.lang.Integer"/>
+	<field name="id_operacao_taxa" class="java.lang.Integer"/>
+	<field name="id_estado" class="java.lang.Integer"/>
+	<field name="valor_moeda_usuario" class="java.math.BigDecimal"/>
+	<field name="data_transacao" class="java.sql.Timestamp"/>
+	<field name="data_liberacao_saque" class="java.sql.Timestamp"/>
+	<field name="data_cancelamento" class="java.sql.Timestamp"/>
+	<field name="justificativa_cancelamento" class="java.lang.String"/>
+	<field name="data_aprovacao" class="java.sql.Timestamp"/>
+	<field name="data_reprovacao" class="java.sql.Timestamp"/>
+	<field name="justificativa_reprovacao" class="java.lang.String"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="data_pagamento" class="java.sql.Timestamp"/>
+	<field name="data_vencimento" class="java.sql.Timestamp"/>
+	<field name="saldo_moeda_usuario" class="java.math.BigDecimal"/>
+	<field name="id_usuario_logado" class="java.lang.Integer"/>
+	<field name="id_transacao_correspondente" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="2" width="100" height="20" uuid="2d3db557-19ff-49a6-a443-9f39769fb014"/>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="2" width="100" height="20" uuid="f102b3dd-9422-44a1-b241-4892a5284f74"/>
+				<text><![CDATA[id_pai]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="2" width="100" height="20" uuid="f7c8697e-ec67-4540-bff3-d4c4b37caef2"/>
+				<text><![CDATA[nome]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="25" width="100" height="20" uuid="6fabeb4e-da05-4c80-9c30-0b0b98d844e3"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="23" width="100" height="20" uuid="18af4833-80f8-472f-9b35-551e61eeeb0e"/>
+				<textFieldExpression><![CDATA[$F{id_pai}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="311" y="21" width="100" height="20" uuid="aa77925f-584c-46fa-9056-d2125af38d1a"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

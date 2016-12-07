@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+
+        <title>Cadastro de Cliente</title>
+
+
+        <script>
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Só Horas',
+                timeText: 'Tempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                ampm: false,
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo o Dia'
+            };
+
+        </script>
+
+    </h:head>
+    <h:body>
+        <h:form id="formPrincipal">
+
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+
+            <h:panelGrid columns="2" columnClasses="label , value" style="font-size: 15px">
+                <p:outputLabel for="tipoPessoa" value="Pessoa:" style="font-size: 15px"/>
+                <p:selectOneRadio id="tipoPessoa" value="#{clienteBean.tpPessoa}" required="true" style="font-size: 20px" >
+                    <f:selectItem itemLabel="Pessoa Física" itemValue="F" />
+                    <f:selectItem itemLabel="Pessoa Jurídica" itemValue="J" />
+                    <p:ajax event="change" partialSubmit="true" process="@this" update="winzard"/>
+                </p:selectOneRadio>
+            </h:panelGrid>
+
+            <p:wizard id="winzard" flowListener="#{clienteBean.onFlowProcess}" nextLabel="Próximo" backLabel="Anterior" showNavBar="true">
+
+                <p:tab id="personal" title="Dados">
+
+                    <p:panel header="Dados do Cliente">
+
+                        <p:messages />
+                        <h:panelGrid columns="2" columnClasses="label, value" rendered="#{clienteBean.tpPessoa=='F'}">
+
+                            <p:outputLabel for="nome" value="Nome :" />
+                            <p:inputText id="nome" value="#{clienteBean.c.nmRzSocial}" style="width: 300px" required="true" label="Firstname"/>
+
+                            <p:outputLabel for="cpf" value="CPF :"  />
+                            <p:inputMask id="cpf" value="#{clienteBean.c.nrCpfCnpj}" style="width: 170px" required="true" mask="999.999.999-99"/>
+
+                            <p:outputLabel for="rg" value="RG :"   />
+                            <p:inputText  id="rg" value="#{clienteBean.c.nrRgInscEst}" style="width: 170px" />
+
+                            <p:outputLabel for="dataNasc" value="Data de Nascimento :" />
+                            <p:calendar id="dataNasc" value="#{clienteBean.c.dtNascFundacao}" pattern="dd/MM/yyyy" navigator="true" locale="pt" style="width: 200px" required="true" />
+
+                            <p:outputLabel for="sexo" value="Sexo :" />
+                            <p:selectOneMenu id="sexo" value="#{clienteBean.c.sexo}" style="width:175px" required="true">
+                                <f:selectItem itemLabel="Selecione" itemValue="" />
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Feminino" itemValue="F" />
+                            </p:selectOneMenu>
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2" columnClasses="label, value" rendered="#{clienteBean.tpPessoa=='J'}">
+
+                            <p:outputLabel for="rzSocial" value="Razão Social: *" />
+                            <p:inputText id="rzSocial" value="#{clienteBean.c.nmRzSocial}" required="true" label="Firstname"/>
+
+                            <p:outputLabel for="nmFantasia" value="Nome Fantasia: *" />
+                            <p:inputText id="nmFantasia" value="#{clienteBean.c.nmFantasia}" required="true" label="Lastname"/>
+
+                            <p:outputLabel for="cnpj" value="CNPJ :" />
+                            <p:inputMask id="cnpj" value="#{clienteBean.c.nrCpfCnpj}" style="width: 150px" required="true" mask="99.999.999/9999-99"/>
+
+                            <p:outputLabel for="dataFund" value="Data de Fundação :" />
+                            <p:calendar id="dataFund" value="#{clienteBean.c.dtNascFundacao}" pattern="dd/MM/yyyy" navigator="true" locale="pt" style="width: 150px" required="true" />
+
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="address" title="Endereço">
+
+                    <p:panel header="Dados do Endereço">
+
+                        <p:messages />
+
+                        <h:panelGrid id="endereco" columns="4" cellpadding="5px" columnClasses="label, value" > 
+
+                            <p:outputLabel for="estado" value="Estado :"/>
+                            <p:selectOneMenu id="estado" value="#{enderecoBean.uf}" converter="simpleIndexConverter"  style="">
+                                <p:ajax event="change" process="@this" update="cidades" partialSubmit="true"/>
+                                <f:selectItem itemLabel="Selecione" itemValue="" />
+                                <f:selectItems value="#{ufBean.ufsConverter}" var="uf" itemValue="#{uf}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="cidades" value="Cidade :"/>
+                            <p:selectOneMenu id="cidades" value="#{enderecoBean.ende.cdCidade}" 
+                                             converter="simpleIndexConverter"   style="">
+                                <f:selectItem itemLabel="Selecione" itemValue="" />
+                                <f:selectItems value="#{enderecoBean.uf.cidadesListConverter}" var="cid" itemValue="#{cid}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="tpEndereco" value="Tipo do Endereco :"/>
+                            <p:selectOneMenu id="tpEndereco" value="#{enderecoBean.ende.cdTipoEndereco}" converter="simpleIndexConverter"   >
+                                <f:selectItem itemLabel="Selecione" itemValue="" />
+                                <f:selectItems value="#{tipoEnderecoBean.tiposEnderecoConverter}" var="tp" itemValue="#{tp}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="logradouro" value="Logradouro :"/>
+                            <p:inputText id="logradouro" value="#{enderecoBean.ende.dsLogradouro}"  style="width: 500px" />
+
+                            <p:outputLabel for="numero" value="Número :"/>
+                            <p:inputText id="numero" value="#{enderecoBean.ende.dsNumero}"  style="width: 100px" />
+
+                            <p:outputLabel for="bairro" value="Bairro :"/>
+                            <p:inputText id="bairro" value="#{enderecoBean.ende.dsBairro}"  style="width: 500px" />
+
+                            <p:outputLabel for="cep" value="CEP :"/>
+                            <p:inputMask id="cep" value="#{enderecoBean.ende.dsCep}"  style="width: 100px"  mask="99999-999"/>
+
+
+                        </h:panelGrid>
+
+                        <p:commandButton value="Adicionar" icon="ui-icon-print" style="display:block;margin-bottom: 20px" action="#{enderecoBean.add()}" update="endereco tbEnderecos"/>
+
+
+                        <p:dataTable id="tbEnderecos"  value="#{enderecoBean.enderecos}" var="e">                     
+
+                            <p:column headerText="Tipo Endereço"  style="width: 10%;text-align: left">
+                                <h:outputText value="#{e.cdTipoEndereco.dsTipoEndereco}"/>
+                            </p:column>
+
+                            <p:column headerText="Estado/Cidade" style="width: 10%;text-align: left">
+                                <h:outputText value="#{e.cdCidade.cdUf.sgUf} - #{e.cdCidade.nmCidade}"/>
+                            </p:column>
+
+                            <p:column headerText="Logradouro" style="width: 30%;text-align: left">
+                                <h:outputText value="#{e.dsLogradouro}"/>
+                            </p:column>
+
+                            <p:column headerText="Numero" style="width: 10%;text-align: left">
+                                <h:outputText value="#{e.dsNumero}"/>
+                            </p:column>
+
+                            <p:column headerText="Bairro" style="width: 20%;text-align: left">
+                                <h:outputText value="#{e.dsBairro}"/>
+                            </p:column>
+
+                            <p:column headerText="CEP" style="width: 10%;text-align: left">
+                                <h:outputText value="#{e.dsCep}"/>
+                            </p:column>
+
+                            <p:column  style="width:32px;text-align: center" >
+                                <p:commandButton  update="tbEnderecos"  icon="ui-icon-circle-minus" title="Excluir" 
+                                                  oncomplete="PF('delEnderecoDialog').show()" process="@this" >
+                                    <f:setPropertyActionListener value="#{e}" target="#{enderecoBean.ende}" />
+                                </p:commandButton>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </p:panel>
+
+                </p:tab>
+
+                <p:tab id="contact" title="Contato">
+                    <p:panel header="Informações do Contato">
+                        <p:messages />
+                        <h:panelGrid id="contatos" columns="2" columnClasses="label, value">
+
+                            <p:outputLabel for="nomeContato" value="Nome: " />
+                            <p:inputText id="nomeContato" value="#{contatoBean.c.nmContato}" style="width: 250px"  />
+
+                            <p:outputLabel for="email" value="Email: " />
+                            <p:inputText id="email" value="#{contatoBean.c.dsEmail}" style="width: 250px" />
+
+                            <p:outputLabel for="telefone" value="Telefone: " />
+                            <p:inputMask id="telefone" value="#{contatoBean.c.dsTelefone}"  style="width: 250px"  mask="(99)9999-9999?9" />
+
+                        </h:panelGrid>
+
+                        <p:commandButton value="Adicionar" icon="ui-icon-print" style="display:block;margin-bottom: 20px" 
+                                         action="#{contatoBean.add()}" 
+                                         update="contatos tbContatos"/>
+
+                        <p:dataTable id="tbContatos" value="#{contatoBean.contatos}" var="con">
+
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{con.nmContato}"/>
+                            </p:column>
+
+                            <p:column headerText="Email">
+                                <h:outputText value="#{con.dsEmail}"/>
+                            </p:column>
+
+                            <p:column headerText="Telefone">
+                                <h:outputText value="#{con.dsTelefone}"/>
+                            </p:column>
+
+                            <p:column  style="width:32px;text-align: center" >
+                                <p:commandButton  update="tbContatos"  icon="ui-icon-circle-minus" title="Excluir" 
+                                                  oncomplete="PF('delContatoDialog').show()" process="@this" >
+                                    <f:setPropertyActionListener value="#{con}" target="#{contatoBean.c}" />
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="confirm" title="Comfirmação">
+                    <p:panel header="Comfirmação">
+                        <h:panelGrid id="confirmation" columns="1" columnClasses="grid,grid,grid">
+
+                            <p:panel header="Dados">
+
+                                <h:panelGrid columns="2" columnClasses="label, value" rendered="#{clienteBean.tpPessoa=='F'}">
+
+                                    <h:outputText  value="Nome : " />
+                                    <h:outputText  value="#{clienteBean.c.nmRzSocial}"  />
+
+                                    <h:outputText  value="CPF : "  />
+                                    <h:outputText value="#{clienteBean.c.nrCpfCnpj}"  />
+
+                                    <h:outputText  value="RG : "   />
+                                    <h:outputText  value="#{clienteBean.c.nrRgInscEst}" />
+
+                                    <h:outputText  value="Data de Nascimento :" />
+                                    <h:outputText  value="#{clienteBean.c.dtNascFundacao}">
+                                        <f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" />
+                                    </h:outputText>
+
+                                    <p:outputLabel value="Sexo :" />
+                                    <h:outputText  value="Masculino" rendered="#{clienteBean.c.sexo =='M'}"/>
+                                    <h:outputText  value="Feminino" rendered="#{clienteBean.c.sexo =='F'}"/>
+
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2" columnClasses="label, value" rendered="#{clienteBean.tpPessoa=='J'}">
+
+                                    <h:outputText  value="Razão Social : " />
+                                    <h:outputText  value="#{clienteBean.c.nmRzSocial}" />
+
+                                    <h:outputText  value="Nome Fantasia : " />
+                                    <h:outputText  value="#{clienteBean.c.nmFantasia}"  />
+
+                                    <h:outputText  value="CNPJ : " />
+                                    <h:outputText  value="#{clienteBean.c.nrCpfCnpj}" />
+
+                                    <h:outputText  value="Data de Fundação : " />
+                                    <h:outputText  value="#{clienteBean.c.dtNascFundacao}" >
+                                        <f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" />
+                                    </h:outputText>
+
+                                </h:panelGrid>
+
+                            </p:panel>
+
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <p:panel header="Endereços">
+
+                                    <p:dataTable id="tbEnderecosConf"  value="#{enderecoBean.enderecos}" var="e">                     
+
+                                        <p:column headerText="Tipo Endereço"  style="width: 10%;text-align: left">
+                                            <h:outputText value="#{e.cdTipoEndereco.dsTipoEndereco}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Estado/Cidade" style="width: 10%;text-align: left">
+                                            <h:outputText value="#{e.cdCidade.cdUf.sgUf} - #{e.cdCidade.nmCidade}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Logradouro" style="width: 30%;text-align: left">
+                                            <h:outputText value="#{e.dsLogradouro}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Numero" style="width: 10%;text-align: left">
+                                            <h:outputText value="#{e.dsNumero}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Bairro" style="width: 20%;text-align: left">
+                                            <h:outputText value="#{e.dsBairro}"/>
+                                        </p:column>
+
+                                        <p:column headerText="CEP" style="width: 10%;text-align: left">
+                                            <h:outputText value="#{e.dsCep}"/>
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:panel>
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2" columnClasses="label, value">
+
+                                <p:panel header="Contatos">
+                                    <p:dataTable id="tbContatosConf" value="#{contatoBean.contatos}" var="con">
+
+                                        <p:column headerText="Nome">
+                                            <h:outputText value="#{con.nmContato}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Email">
+                                            <h:outputText value="#{con.dsEmail}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Telefone">
+                                            <h:outputText value="#{con.dsTelefone}"/>
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:panel>
+
+
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+                        <p:commandButton value="Enviar" actionListener="#{clienteBean.save()}" update="growl" process="@this"/>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+
+
+
+        </h:form>
+
+
+        <p:dialog header="Confirmar Exclusão?" widgetVar="delEnderecoDialog" resizable="false" id="delEnderecoDialog"  > 
+            <h:form >
+                <h:panelGrid id="displayDel" columns="2"  style="margin:0 auto;">   
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Sim" update=":formPrincipal:tbEnderecos" oncomplete="PF('delEnderecoDialog').hide(); " actionListener="#{enderecoBean.remove()}"/>
+                    </f:facet>
+                    <f:facet name="footer">
+                        <p:commandButton value="Não" update=":formPrincipal:tbEnderecos" oncomplete="PF('delEnderecoDialog').hide(); " />
+                    </f:facet>
+
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+
+        <p:dialog header="Confirmar Exclusão?" widgetVar="delContatoDialog" resizable="false" id="delContatoDialog"  > 
+            <h:form >
+                <h:panelGrid id="displayDel" columns="2"  style="margin:0 auto;">   
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Sim" update=":formPrincipal:tbContatos" oncomplete="PF('delContatoDialog').hide(); " actionListener="#{contatoBean.remove()}"/>
+                    </f:facet>
+                    <f:facet name="footer">
+                        <p:commandButton value="Não" update=":formPrincipal:tbContatos" oncomplete="PF('delContatoDialog').hide(); " />
+                    </f:facet>
+
+                </h:panelGrid> 
+            </h:form>
+        </p:dialog> 
+
+
+    </h:body>
+</html>
+
