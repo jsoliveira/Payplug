@@ -40,7 +40,7 @@ public class Titulos implements Serializable{
     private Integer id;
     
     @ManyToOne
-    @JoinColumn(name = "id_transacoes", referencedColumnName = "id")
+    @JoinColumn(name = "id_transacao", referencedColumnName = "id")
     private Transacoes idTransacao;
     
     @Column(name = "dat_titulo")
