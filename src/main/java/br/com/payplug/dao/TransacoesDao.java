@@ -2,6 +2,7 @@
 package br.com.payplug.dao;
 
 import br.com.payplug.dao.DAOImp;
+import br.com.payplug.model.Operacoes;
 import br.com.payplug.model.Transacoes;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,25 @@ public class TransacoesDao extends DAOImp<Integer, Transacoes>{
             initCriteria();
 
             criteria.andBetween("dataTransacao", dtInicio, dtFim);
+            criteria.orderByDesc("dataTransacao");
+
+            return criteria.getResultList();
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+
+        }
+
+    }
+
+    
+    public List<Transacoes> getTransacaoPorOperacoes(Date dtInicio,Date dtFim, Integer codOperacao) {
+
+        try {
+            initCriteria();
+
+            criteria.andBetween("dataTransacao", dtInicio, dtFim);
+            criteria.andEquals("id_operacao", codOperacao);
             criteria.orderByDesc("dataTransacao");
 
             return criteria.getResultList();

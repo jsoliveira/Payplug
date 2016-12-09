@@ -60,6 +60,10 @@ public class Transacoes implements Serializable {
     @NotNull
     @Column(name = "valor_em_real")
     private BigDecimal valorEmReal;
+    
+    @JoinColumn(name = "id", referencedColumnName = "id_transacao")
+    @OneToMany
+    private List<Titulos> titulosDaTransacao;
 
     @Column(name = "taxa_cambio")
     private BigDecimal taxaCambio;
@@ -191,6 +195,14 @@ public class Transacoes implements Serializable {
         this.id = id;
     }
 
+    public List<Titulos> getTitulosDaTransacao() {
+        return titulosDaTransacao;
+    }
+
+    public void setTitulosDaTransacao(List<Titulos> titulosDaTransacao) {
+        this.titulosDaTransacao = titulosDaTransacao;
+    }
+    
     public Transacoes(Integer id, String codigo, BigDecimal valorMoedaUsuario, BigDecimal valorEmReal, Date dataTransacao, int removido, int idUsuarioLogado, int idContrato, boolean isCamara) {
         this.id = id;
         this.codigo = codigo;

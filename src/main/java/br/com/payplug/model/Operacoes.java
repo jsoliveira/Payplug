@@ -51,6 +51,36 @@ public class Operacoes implements Serializable {
     private List<Transacoes> transacoesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOperacao")
     private List<OperacoesTaxas> operacoesTaxasList;
+    @Column(name = "indoperacao")
+    private String indoperacao;
+    @Column(name = "indbonificacao")
+    private String indbonificacao;
+    @Column(name = "qtdcobranca")
+    private Integer qtdcobranca;
+
+    public Integer getQtdcobranca() {
+        return qtdcobranca;
+    }
+
+    public void setQtdcobranca(Integer qtdcobranca) {
+        this.qtdcobranca = qtdcobranca;
+    }
+    
+    public String getIndoperacao() {
+        return indoperacao;
+    }
+
+    public void setIndoperacao(String indoperacao) {
+        this.indoperacao = indoperacao;
+    }
+
+    public String getIndbonificacao() {
+        return indbonificacao;
+    }
+
+    public void setIndbonificacao(String indbonificacao) {
+        this.indbonificacao = indbonificacao;
+    }
 
     public Operacoes() {
     }
@@ -129,7 +159,7 @@ public class Operacoes implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.viptech.payplug.model.Operacoes[ id=" + id + " ]";
+        return "br.com.viptech.payplug.model.Operacoes[ id=" + id + nome + " ]";
     }
     
 }
