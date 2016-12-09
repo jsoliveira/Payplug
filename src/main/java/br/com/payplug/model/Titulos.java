@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,10 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "titulos")
 @XmlRootElement
-//@NamedQueries({
-//    @NamedQuery(name = "Titulos.findAll", query = "SELECT t FROM Titulos t"),
-//    @NamedQuery(name = "Titulos.findById", query = "SELECT t FROM Titulos t WHERE t.id_titulo = :id"),
-//    @NamedQuery(name = "Titulos.findByNome", query = "SELECT t FROM Titulos WHERE t.dat_titulo = :dataUm ")})
+
 public class Titulos implements Serializable{
 
     private static final long serialVersionUID = 1L;
@@ -39,6 +38,10 @@ public class Titulos implements Serializable{
     @NotNull
     @Column(name = "id_titulo")
     private Integer id;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_transacoes", referencedColumnName = "id")
+    private Transacoes idTransacao;
     
     @Column(name = "dat_titulo")
     private Date dataTitulo;

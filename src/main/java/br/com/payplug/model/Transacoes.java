@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.payplug.model;
 
 import java.io.Serializable;
@@ -16,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -61,9 +54,6 @@ public class Transacoes implements Serializable {
     @Column(name = "valor_em_real")
     private BigDecimal valorEmReal;
     
-    @JoinColumn(name = "id", referencedColumnName = "id_transacao")
-    @OneToMany
-    private List<Titulos> titulosDaTransacao;
 
     @Column(name = "taxa_cambio")
     private BigDecimal taxaCambio;
@@ -187,6 +177,9 @@ public class Transacoes implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTransacao")
     private List<Boletos> boletosList;
+   
+    @OneToMany(mappedBy = "idTransacao")
+    private List<Titulos> titulos;
 
     public Transacoes() {
     }
@@ -195,13 +188,7 @@ public class Transacoes implements Serializable {
         this.id = id;
     }
 
-    public List<Titulos> getTitulosDaTransacao() {
-        return titulosDaTransacao;
-    }
 
-    public void setTitulosDaTransacao(List<Titulos> titulosDaTransacao) {
-        this.titulosDaTransacao = titulosDaTransacao;
-    }
     
     public Transacoes(Integer id, String codigo, BigDecimal valorMoedaUsuario, BigDecimal valorEmReal, Date dataTransacao, int removido, int idUsuarioLogado, int idContrato, boolean isCamara) {
         this.id = id;
@@ -497,6 +484,15 @@ public class Transacoes implements Serializable {
     public void setBoletosList(List<Boletos> boletosList) {
         this.boletosList = boletosList;
     }
+
+    public List<Titulos> getTitulos() {
+        return titulos;
+    }
+
+    public void setTitulos(List<Titulos> titulos) {
+        this.titulos = titulos;
+    }
+    
 
     @Override
     public int hashCode() {
