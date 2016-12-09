@@ -1,4 +1,3 @@
-
 package br.com.payplug.dao;
 
 import br.com.payplug.dao.DAOImp;
@@ -13,16 +12,14 @@ import javax.ejb.Stateless;
  *
  * @author jsoliveira
  */
-
 @Stateless
-public class TransacoesDao extends DAOImp<Integer, Transacoes>{
-    
+public class TransacoesDao extends DAOImp<Integer, Transacoes> {
+
     public TransacoesDao() {
         super(Transacoes.class);
     }
-    
-    
-    public List<Transacoes> getTransacao(Date dtInicio,Date dtFim) {
+
+    public List<Transacoes> getTransacao(Date dtInicio, Date dtFim) {
 
         try {
             initCriteria();
@@ -39,14 +36,14 @@ public class TransacoesDao extends DAOImp<Integer, Transacoes>{
 
     }
 
-    
-    public List<Transacoes> getTransacaoPorOperacoes(Date dtInicio,Date dtFim, Integer codOperacao) {
+    public List<Transacoes> getTransacaoPorOperacoes(Date dtInicio, Date dtFim, Integer codOperacao) {
 
         try {
             initCriteria();
 
+            criteria.innerJoin("idOperacao");
             criteria.andBetween("dataTransacao", dtInicio, dtFim);
-            criteria.andEquals("id_operacao", codOperacao);
+            criteria.andEquals("idOperacao.id", codOperacao);
             criteria.orderByDesc("dataTransacao");
 
             return criteria.getResultList();
@@ -58,5 +55,4 @@ public class TransacoesDao extends DAOImp<Integer, Transacoes>{
 
     }
 
-    
 }
