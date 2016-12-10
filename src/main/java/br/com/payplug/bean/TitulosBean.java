@@ -171,6 +171,7 @@ public class TitulosBean implements Serializable{
 
             salvarTitulos(titulos);
             
+            
         }
         
 
