@@ -163,7 +163,7 @@ public class TitulosBean implements Serializable{
                 
                 titulo.setDataAlteracao(new Date());
                 
-                titulo.setValorTitulo(new BigDecimal(t.getValorEmReal().doubleValue() / qtdTitulo).setScale(2, RoundingMode.HALF_DOWN));
+                titulo.setValorTitulo(new BigDecimal(valorTotalTitulo / qtdTitulo).setScale(2, RoundingMode.HALF_DOWN));
                 
             }
 
