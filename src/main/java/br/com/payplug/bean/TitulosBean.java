@@ -9,6 +9,11 @@ import br.com.payplug.model.Titulos;
 import br.com.payplug.model.Transacoes;
 import br.com.payplug.tools.Mensagem;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
@@ -48,6 +53,8 @@ public class TitulosBean implements Serializable{
     
     private Date dtFim;
     
+    private Calendar calendar;
+    
     
     public void calcularTitulos(){
         validarDatas();
@@ -56,12 +63,7 @@ public class TitulosBean implements Serializable{
         
         this.transacoes = transacoesDao.getTransacaoPorOperacoes(dtInicio, dtFim, 3);
         
-        
-        
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(this.operacao.toString());
-        System.out.println(this.transacoes.toString());
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        calcularParcelas(this.transacoes);
         
         
     }
@@ -133,6 +135,72 @@ public class TitulosBean implements Serializable{
     
     public void setDtFim(Date dtFim) {
         this.dtFim = dtFim;
+    }
+
+    private void calcularParcelas(List<Transacoes> transacoes) {
+        int diasIntervalo = 30;
+        int qtdTitulo = 3;
+
+        for(Transacoes t : transacoes){
+            double valorTotalTitulo = t.getValorEmReal().doubleValue() * -1;
+            
+            this.titulos = new ArrayList<>();
+            
+            for(int i = 1; i <= qtdTitulo; i++){
+                
+                Titulos titulo = new Titulos();
+                
+                Calendar calendar = Calendar.getInstance();
+                
+                calendar.setTime(t.getDataAprovacao());
+                
+                calendar.add(Calendar.DATE, +(diasIntervalo * i));
+
+                
+                titulo.setDataTitulo(calendar.getTime());
+
+                titulo.setDataTransacao(new Date());
+                
+                titulo.setDataAlteracao(new Date());
+                
+                titulo.setValorTitulo(new BigDecimal(t.getValorEmReal().doubleValue() / qtdTitulo).setScale(2, RoundingMode.HALF_DOWN));
+                
+            }
+
+            verificaValorDoTitulo(titulos, qtdTitulo, valorTotalTitulo);
+
+            salvarTitulos(titulos);
+            
+        }
+        
+
+
+    }
+
+    private void verificaValorDoTitulo(List<Titulos> titulos, int qtdTitulos, double valorTotalTitulo) {
+        
+        double total = titulos.get(0).getValorTitulo().doubleValue() * qtdTitulos;
+
+        double dif = 0;
+        
+        if(total != valorTotalTitulo){
+            
+            dif = total - valorTotalTitulo;
+
+            double primeiraParcela = titulos.get(0).getValorTitulo().doubleValue() - dif;
+            
+            titulos.get(0).setValorTitulo(new BigDecimal(primeiraParcela).setScale(2, RoundingMode.HALF_DOWN));
+            
+        }
+        
+    }
+
+    private void salvarTitulos(List<Titulos> titulos) {
+        
+        for (Titulos titulo : titulos) {
+            tDao.save(titulo);
+        }
+        
     }
 
     
