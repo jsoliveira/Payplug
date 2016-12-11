@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioExtratoFuncionario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="28c70781-f347-441a-9757-8c10a45fe5ac">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="MesParametro" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+	tra.valor_em_real * -1 as valor,
+	usu.nome as funcionario,
+	tra.data_transacao as data,
+	tra.descricao
+from dbo.transacoes tra
+	inner join dbo.usuarios usu on (usu.id = tra.id_usuario)
+	inner join dbo.operacoes op on (op.id  = tra.id_operacao)
+where
+usu.empresa_cnpj = '82.398.124/0001-31'
+and tra.valor_em_real < 0
+and (op.indoperacao = 'T' or op.id = 4)
+and tra.data_transacao between convert(datetime, '20160101') and convert(datetime, '20160701')
+and tra.id_usuario = 33
+order by data_transacao;]]>
+	</queryString>
+	<field name="valor" class="java.math.BigDecimal"/>
+	<field name="funcionario" class="java.lang.String"/>
+	<field name="data" class="java.sql.Timestamp"/>
+	<field name="descricao" class="java.lang.String"/>
+	<variable name="valor_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="119" y="0" width="307" height="20" uuid="cb150a34-ff0b-472a-bc4e-3ae14a9b135c"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Extrato de Gasto do Funcionário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="0" width="33" height="20" uuid="3e88a85e-bdd0-4fc8-a781-3fe3553a4dbe"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mês:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="32" width="72" height="20" uuid="f9b24162-c3e3-4776-b2b8-3d63e1a1fd8d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Funcionário:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="72" y="32" width="284" height="20" uuid="033f3258-42a7-40de-939a-2f5c3df40f92"/>
+				<textFieldExpression><![CDATA[$F{funcionario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="459" y="0" width="96" height="20" uuid="1268724b-1f97-4f1d-b972-abff07eb73d0"/>
+				<textFieldExpression><![CDATA[$P{MesParametro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="287" height="20" uuid="d3690148-1b1f-4e96-89fd-848e8f2b6f67"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="0" width="139" height="20" uuid="ec8a40a5-665a-4702-9dad-df6eee351417"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="0" width="129" height="20" uuid="46cc8717-61ba-4929-9a96-36eb7062453f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="287" y="0" width="139" height="20" uuid="fe21781b-985b-4dda-8d8a-e6aa62deefd7"/>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="287" height="20" uuid="dbf846c1-7f49-4fc4-a386-34ba5179f922"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="426" y="0" width="129" height="20" uuid="965f4df2-427a-4cb4-9693-374dedeba4bc"/>
+				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="25">
+			<staticText>
+				<reportElement x="426" y="0" width="33" height="20" uuid="7d9f8755-c7f5-4cfa-899c-01e277424524"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="459" y="0" width="96" height="20" uuid="7634a4c4-6c78-4903-900a-4797ac6527c9"/>
+				<textFieldExpression><![CDATA[$V{valor_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="26">
+			<textField>
+				<reportElement x="232" y="0" width="100" height="20" uuid="c9838cbf-7e80-43f0-9745-c4598884bf01"/>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
