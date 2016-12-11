@@ -63,7 +63,6 @@ public class Titulos implements Serializable{
     private BigDecimal valorTitulo; 
     
     @Basic(optional = false)
-    @NotNull
     @Column(name = "val_liquidacao")
     private BigDecimal valorLiquidacao; 
 
@@ -135,5 +134,14 @@ public class Titulos implements Serializable{
         this.valorTitulo = valorTitulo;
         this.valorLiquidacao = valorLiquidacao;
     }
+
+    public Transacoes getIdTransacao() {
+        return idTransacao;
+    }
+
+    public void setIdTransacao(Transacoes idTransacao) {
+        this.idTransacao = idTransacao;
+    }
+    
     
 }
