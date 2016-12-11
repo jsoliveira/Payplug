@@ -4,8 +4,10 @@ import br.com.payplug.dao.UsuariosDao;
 import br.com.payplug.enuns.OperadoresJPQL;
 import br.com.payplug.model.Usuarios;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -26,9 +28,19 @@ public class RelatorioFechamentoBean implements Serializable {
 
     private Date dtFim;
 
-    private Usuarios usuario;
+    private Usuarios empresa;
+
+    private Usuarios funcionairo;
 
     private List<SelectItem> empresas;
+    private List<SelectItem> funcionarios;
+
+    @PostConstruct
+    public void init() {
+
+        this.funcionarios = new ArrayList<>();
+
+    }
 
     public UsuariosDao getuDao() {
         return uDao;
@@ -54,20 +66,32 @@ public class RelatorioFechamentoBean implements Serializable {
         this.dtFim = dtFim;
     }
 
-    public Usuarios getUsuario() {
-        return usuario;
+    public Usuarios getEmpresa() {
+        return empresa;
     }
 
-    public void setUsuario(Usuarios usuario) {
-        this.usuario = usuario;
+    public void setEmpresa(Usuarios empresa) {
+        this.empresa = empresa;
     }
 
+    public Usuarios getFuncionairo() {
+        return funcionairo;
+    }
+
+    public void setFuncionairo(Usuarios funcionairo) {
+        this.funcionairo = funcionairo;
+    }
 
     public List<SelectItem> getEmpresas() {
 
         return this.empresas = uDao.getSelectItens("isParceiro", 1, OperadoresJPQL.equals.getOperador(), "nome", Boolean.TRUE);
-     
+
     }
 
+    public List<SelectItem> getFuncionarios() {
+
+        return this.empresas = uDao.getSelectItens("isParceiro", 1, OperadoresJPQL.equals.getOperador(), "nome", Boolean.TRUE);
+
+    }
 
 }

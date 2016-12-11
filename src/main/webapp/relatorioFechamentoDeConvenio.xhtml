@@ -35,9 +35,17 @@
                     </p:calendar>
 
                     <p:outputLabel for="empresa" value="Empresa" />
-                    <p:selectOneMenu filter="true" id="empresa" required="true" value="#{relatorioFechamentoBean.usuario}"
+                    <p:selectOneMenu filter="true" id="empresa" required="true" value="#{relatorioFechamentoBean.empresa}"
                                      converter="simpleIndexConverter"   >
                         <f:selectItems value="#{relatorioFechamentoBean.empresas}" var="e" itemValue="#{a}" />
+                        <p:ajax event="change" listener="#{relatorioFechamentoBean.preencherUsuariosEmpresa()}" update="funcionarios"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="Funcionários" value="funcionarios" />
+                    <p:selectOneMenu filter="true" id="funcionarios" required="true" value="#{relatorioFechamentoBean.funcionairo}"
+                                     converter="simpleIndexConverter"   >
+                        <f:selectItems value="#{relatorioFechamentoBean.funcionarios}" var="e" itemValue="#{a}" />
+                        
                     </p:selectOneMenu>
 
 
