@@ -6,11 +6,11 @@ import br.com.payplug.dao.TitulosDao;
 import br.com.payplug.dao.TransacoesDao;
 import br.com.payplug.model.Operacoes;
 import br.com.payplug.model.Titulos;
+import br.com.payplug.model.TitulosPk;
 import br.com.payplug.model.Transacoes;
 import br.com.payplug.tools.Mensagem;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -168,7 +168,7 @@ public class TitulosBean implements Serializable{
                 
                 calendar.add(Calendar.DATE, +(diasIntervalo * i));
                 
-                titulo.setId(i);
+                titulo.setTitulosPk(new TitulosPk(t.getId(), i));
 
                 titulo.setIdTransacao(t);
                 
