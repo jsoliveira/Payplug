@@ -142,7 +142,12 @@ public class TitulosBean implements Serializable{
         int qtdTitulo = 3;
 
         for(Transacoes t : transacoes){
-            double valorTotalTitulo = t.getValorEmReal().doubleValue() * -1;
+            double valorTotalTitulo = t.getValorEmReal().doubleValue();
+
+            if(valorTotalTitulo > 0){
+                continue;
+            }
+            valorTotalTitulo = valorTotalTitulo * -1;
             
             this.titulos = new ArrayList<>();
             
@@ -155,7 +160,10 @@ public class TitulosBean implements Serializable{
                 calendar.setTime(t.getDataAprovacao());
                 
                 calendar.add(Calendar.DATE, +(diasIntervalo * i));
+                
+                titulo.setId(i);
 
+                titulo.setIdTransacao(t);
                 
                 titulo.setDataTitulo(calendar.getTime());
 
@@ -164,6 +172,8 @@ public class TitulosBean implements Serializable{
                 titulo.setDataAlteracao(new Date());
                 
                 titulo.setValorTitulo(new BigDecimal(valorTotalTitulo / qtdTitulo).setScale(2, RoundingMode.HALF_DOWN));
+                
+                titulos.add(titulo);
                 
             }
 
