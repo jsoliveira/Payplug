@@ -65,6 +65,13 @@ public class TitulosBean implements Serializable{
         
         calcularParcelas(this.transacoes);
         
+
+        this.operacao = operacoesDao.getOperacaoPorCodigo(4);
+        
+        this.transacoes = transacoesDao.getTransacaoPorOperacoes(dtInicio, dtFim, 4);
+
+        calcularParcelas(this.transacoes);
+
         
     }
     
@@ -157,7 +164,7 @@ public class TitulosBean implements Serializable{
                 
                 Calendar calendar = Calendar.getInstance();
                 
-                calendar.setTime(t.getDataAprovacao());
+                calendar.setTime(t.getDataTransacao());
                 
                 calendar.add(Calendar.DATE, +(diasIntervalo * i));
                 
