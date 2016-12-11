@@ -1,11 +1,15 @@
 package br.com.payplug.bean;
 
 import br.com.payplug.dao.UsuariosDao;
+import br.com.payplug.enuns.OperadoresJPQL;
 import br.com.payplug.model.Usuarios;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -13,23 +17,38 @@ import javax.inject.Named;
  *
  * @author Leticia
  */
-
 @SessionScoped
 @Named
-public class RelatorioFechamentoBean implements Serializable{
-    
-    
+public class RelatorioFechamentoBean implements Serializable {
+
     @Inject
     private UsuariosDao uDao;
-        
+
     private Date dtInicio;
 
     private Date dtFim;
-    
-    private Usuarios usuarios;
-    
-    
-    private List<Usuarios> empresas;
+
+    private Usuarios empresa;
+
+    private Usuarios funcionairo;
+
+    private List<SelectItem> empresas;
+    private List<SelectItem> funcionarios;
+
+    @PostConstruct
+    public void init() {
+
+        this.funcionarios = new ArrayList<>();
+
+    }
+
+    public UsuariosDao getuDao() {
+        return uDao;
+    }
+
+    public void setuDao(UsuariosDao uDao) {
+        this.uDao = uDao;
+    }
 
     public Date getDtInicio() {
         return dtInicio;
@@ -47,25 +66,32 @@ public class RelatorioFechamentoBean implements Serializable{
         this.dtFim = dtFim;
     }
 
-    public Usuarios getUsuarios() {
-        return usuarios;
+    public Usuarios getEmpresa() {
+        return empresa;
     }
 
-    public void setUsuarios(Usuarios usuarios) {
-        this.usuarios = usuarios;
+    public void setEmpresa(Usuarios empresa) {
+        this.empresa = empresa;
     }
 
-    public List<Usuarios> getEmpresas() {
-        return empresas;
+    public Usuarios getFuncionairo() {
+        return funcionairo;
     }
 
-    public void setEmpresas(List<Usuarios> empresas) {
-        this.empresas = empresas;
+    public void setFuncionairo(Usuarios funcionairo) {
+        this.funcionairo = funcionairo;
     }
 
+    public List<SelectItem> getEmpresas() {
 
-    
-    
-    
-    
+        return this.empresas = uDao.getSelectItens("isParceiro", 1, OperadoresJPQL.equals.getOperador(), "nome", Boolean.TRUE);
+
+    }
+
+    public List<SelectItem> getFuncionarios() {
+
+        return this.empresas = uDao.getSelectItens("isParceiro", 1, OperadoresJPQL.equals.getOperador(), "nome", Boolean.TRUE);
+
+    }
+
 }

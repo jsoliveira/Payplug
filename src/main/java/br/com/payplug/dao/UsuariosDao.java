@@ -1,6 +1,7 @@
 package br.com.payplug.dao;
 
 import br.com.payplug.model.Usuarios;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**
@@ -23,6 +24,25 @@ public class UsuariosDao extends DAOImp<Integer, Usuarios> {
             criteria.andEquals("pwLogin", senha);
 
             return (Usuarios) criteria.getSingleResult();
+
+        } catch (Exception e) {
+            return null;
+
+        }
+
+    }
+    
+      public List<Usuarios> empresas() {
+
+        try {
+            initCriteria();
+
+            criteria.andEquals("isParceiro", 1);
+            
+
+        
+            return criteria.getResultList();
+            
 
         } catch (Exception e) {
             return null;
