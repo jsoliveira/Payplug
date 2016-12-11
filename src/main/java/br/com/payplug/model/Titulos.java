@@ -3,46 +3,37 @@ package br.com.payplug.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author jnakamura
  */
-
 @Entity
 @Table(name = "titulos")
 @XmlRootElement
-
-public class Titulos implements Serializable{
+public class Titulos implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_titulo")
-    private Integer id;
-    
+
+    @EmbeddedId
+    private TitulosPk titulosPk;
+
     @ManyToOne
-    @JoinColumn(name = "id_transacao", referencedColumnName = "id")
+    @JoinColumn(name = "id_transacao", referencedColumnName = "id",insertable = false,updatable = false)
     private Transacoes idTransacao;
-    
+
     @Column(name = "dat_titulo")
     private Date dataTitulo;
 
@@ -56,22 +47,44 @@ public class Titulos implements Serializable{
     @Column(name = "dat_alteracao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAlteracao;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "val_titulo")
-    private BigDecimal valorTitulo; 
-    
+    private BigDecimal valorTitulo;
+
     @Basic(optional = false)
     @Column(name = "val_liquidacao")
-    private BigDecimal valorLiquidacao; 
+    private BigDecimal valorLiquidacao;
 
-    public Integer getId() {
-        return id;
+    public Titulos() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Titulos(TitulosPk titulosPk, Transacoes idTransacao, Date dataTitulo, Date dataLiquidacao, Date dataTransacao, Date dataAlteracao, BigDecimal valorTitulo, BigDecimal valorLiquidacao) {
+        this.titulosPk = titulosPk;
+        this.idTransacao = idTransacao;
+        this.dataTitulo = dataTitulo;
+        this.dataLiquidacao = dataLiquidacao;
+        this.dataTransacao = dataTransacao;
+        this.dataAlteracao = dataAlteracao;
+        this.valorTitulo = valorTitulo;
+        this.valorLiquidacao = valorLiquidacao;
+    }
+
+    public TitulosPk getTitulosPk() {
+        return titulosPk;
+    }
+
+    public void setTitulosPk(TitulosPk titulosPk) {
+        this.titulosPk = titulosPk;
+    }
+
+    public Transacoes getIdTransacao() {
+        return idTransacao;
+    }
+
+    public void setIdTransacao(Transacoes idTransacao) {
+        this.idTransacao = idTransacao;
     }
 
     public Date getDataTitulo() {
@@ -122,26 +135,36 @@ public class Titulos implements Serializable{
         this.valorLiquidacao = valorLiquidacao;
     }
 
-    public Titulos() {
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.titulosPk);
+        return hash;
     }
 
-    public Titulos(Integer id, Date dataTitulo, Date dataLiquidacao, Date dataTransacao, Date dataAlteracao, BigDecimal valorTitulo, BigDecimal valorLiquidacao) {
-        this.id = id;
-        this.dataTitulo = dataTitulo;
-        this.dataLiquidacao = dataLiquidacao;
-        this.dataTransacao = dataTransacao;
-        this.dataAlteracao = dataAlteracao;
-        this.valorTitulo = valorTitulo;
-        this.valorLiquidacao = valorLiquidacao;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Titulos other = (Titulos) obj;
+        if (!Objects.equals(this.titulosPk, other.titulosPk)) {
+            return false;
+        }
+        return true;
     }
 
-    public Transacoes getIdTransacao() {
-        return idTransacao;
+    @Override
+    public String toString() {
+        return "Titulos{" + "titulosPk=" + titulosPk + ", idTransacao=" + idTransacao + ", dataTitulo=" + dataTitulo + ", dataLiquidacao=" + dataLiquidacao + ", dataTransacao=" + dataTransacao + ", dataAlteracao=" + dataAlteracao + ", valorTitulo=" + valorTitulo + ", valorLiquidacao=" + valorLiquidacao + '}';
     }
 
-    public void setIdTransacao(Transacoes idTransacao) {
-        this.idTransacao = idTransacao;
-    }
-    
-    
+  
+
 }
