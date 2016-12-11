@@ -792,7 +792,9 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.viptech.payplug.model.Usuarios[ id=" + id + " ]";
+        return nome ;
     }
+
+   
     
 }

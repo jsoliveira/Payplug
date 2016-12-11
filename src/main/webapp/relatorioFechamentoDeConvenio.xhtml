@@ -10,46 +10,43 @@
         <div class="ContainerIndent">
 
             <h:form id="formTitulos">
-                
-                   <h:panelGrid columns="2">
-                        <p:outputLabel for="dtInicio" value="Data Inicio"/>
-                        <p:calendar id="dtInicio"  
-                                    required="true" 
-                                    value="#{transacoesBean.dtInicio}"  
-                                    pattern="dd/MM/yyyy" 
-                                    locale="pt" 
-                                    readonlyInput="true"
-                                    showOn="both"
-                                    />
+
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="dtInicio" value="Data Inicio"/>
+                    <p:calendar id="dtInicio"  
+                                required="true" 
+                                value="#{relatorioFechamentoBean.dtInicio}"  
+                                pattern="dd/MM/yyyy" 
+                                locale="pt" 
+                                readonlyInput="true"
+                                showOn="both"
+                                />
 
 
-                        <p:outputLabel for="dtFinal" value="Data Final" />
-                        <p:calendar id="dtFinal"
-                                    required="true"
-                                    value="#{transacoesBean.dtFim}"
-                                    pattern="dd/MM/yyyy"
-                                    locale="pt"
-                                    readonlyInput="true"
-                                    showOn="both">
+                    <p:outputLabel for="dtFinal" value="Data Final" />
+                    <p:calendar id="dtFinal"
+                                required="true"
+                                value="#{relatorioFechamentoBean.dtFim}"
+                                pattern="dd/MM/yyyy"
+                                locale="pt"
+                                readonlyInput="true"
+                                showOn="both">
 
-                        </p:calendar>
+                    </p:calendar>
+
+                    <p:outputLabel for="empresa" value="Empresa" />
+                    <p:selectOneMenu filter="true" id="empresa" required="true" value="#{relatorioFechamentoBean.usuario}"
+                                     converter="simpleIndexConverter"   >
+                        <f:selectItems value="#{relatorioFechamentoBean.empresas}" var="e" itemValue="#{a}" />
+                    </p:selectOneMenu>
 
 
 
-                    </h:panelGrid>
-           
-                        <p:outputLabel for="empresa" value="Empresa" />
-                        <p:selectOneMenu filter="true" id="empresa"  >
-                            <f:selectItem itemValue="1"  itemLabel="Empresa 1"/>
-                            <f:selectItem itemValue="2"  itemLabel="Empresa 2"/>
-                            <f:selectItem itemValue="3"  itemLabel="Empresa 3"/>
-                        </p:selectOneMenu>
+                </h:panelGrid>
 
-                
-                
-                
+
             </h:form>
         </div>
     </ui:define>
-    
+
 </ui:composition>
