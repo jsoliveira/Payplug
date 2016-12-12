@@ -18,6 +18,7 @@ import javax.ejb.Stateless;
 public class TitulosDao extends DAOImp<Integer, Titulos> {
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    private final SimpleDateFormat sdfMes = new SimpleDateFormat("MM");
     private final StringBuilder SQL = new StringBuilder();
     private final HashMap<Integer, Object> binds = new HashMap<>();
 
@@ -41,7 +42,7 @@ public class TitulosDao extends DAOImp<Integer, Titulos> {
         }
 
     }
-
+    
     public ResultSet relFechamentoSintetico(Date dtInicio, String cnpjEmpresa) {
 
         SQL.setLength(0);
@@ -75,6 +76,43 @@ public class TitulosDao extends DAOImp<Integer, Titulos> {
 
         return ConexaoJdbc.getResultSet(SQL.toString(), binds);
 
+    }
+
+    public Double relTotalFechamentoSintetico(Date dtInicio, String cnpjEmpresa) {
+        try {
+            
+            SQL.setLength(0);
+            SQL.append("SELECT SUM(tit.val_titulo) AS total_mes, \n");
+            SQL.append(" MONTH(tit.dat_titulo)          AS mes_da_cobranca, \n");
+            SQL.append("  YEAR(tit.dat_titulo) \n");
+            SQL.append("FROM dbo.titulos tit \n");
+            SQL.append("INNER JOIN dbo.transacoes tra \n");
+            SQL.append("ON (tra.id = tit.id_transacao) \n");
+            SQL.append("INNER JOIN dbo.usuarios usu \n");
+            SQL.append("ON (usu.id             = tra.id_usuario) \n");
+            SQL.append("WHERE usu.empresa_cnpj = ? \n");
+            SQL.append("AND tit.dat_titulo    >= CONVERT(DATETIME, ?) \n");
+            SQL.append("GROUP BY usu.nome, \n");
+            SQL.append("  MONTH(tit.dat_titulo), \n");
+            SQL.append("  YEAR(tit.dat_titulo) \n");
+            SQL.append("having  MONTH(tit.dat_titulo) = ? \n");
+            SQL.append("ORDER BY YEAR(tit.dat_titulo),  \n");
+            SQL.append("  MONTH(tit.dat_titulo) ");
+
+            binds.clear();
+            binds.put(1, cnpjEmpresa);
+            binds.put(2, sdf.format(dtInicio));
+            
+            String teste = sdfMes.format(dtInicio);
+            
+            binds.put(3, sdfMes.format(dtInicio));
+
+            ResultSet rs = ConexaoJdbc.getResultSet(SQL.toString(), binds);
+            rs.first();
+            return rs.getDouble("total_mes");
+        } catch (Exception e) {
+            return Double.valueOf(0);
+        }
     }
 
     public ResultSet relExtratoDuncionario(Date dtInicio, Date dtFim, Integer codUsuario) {
