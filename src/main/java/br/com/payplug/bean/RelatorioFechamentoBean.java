@@ -43,8 +43,6 @@ public class RelatorioFechamentoBean implements Serializable {
     
     private Date dtInicio;
 
-    private Date dtFim;
-
     private Usuarios empresa;
 
     private List<SelectItem> empresas;
@@ -71,14 +69,6 @@ public class RelatorioFechamentoBean implements Serializable {
 
     public void setDtInicio(Date dtInicio) {
         this.dtInicio = dtInicio;
-    }
-
-    public Date getDtFim() {
-        return dtFim;
-    }
-
-    public void setDtFim(Date dtFim) {
-        this.dtFim = dtFim;
     }
 
     public Usuarios getEmpresa() {

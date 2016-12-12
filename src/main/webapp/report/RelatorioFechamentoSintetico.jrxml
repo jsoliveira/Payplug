@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioFechamentoSintetico" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="78526f8a-4cdf-45c8-9111-a752fec6cc57">
-	<property name="ireport.zoom" value="1.2745232708414267"/>
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
@@ -39,56 +39,106 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="63">
+		<band height="70">
 			<staticText>
-				<reportElement x="220" y="13" width="362" height="24" uuid="50d0d643-9a1d-4e02-9ada-55c5e1b9cb78"/>
+				<reportElement x="207" y="23" width="389" height="24" uuid="50d0d643-9a1d-4e02-9ada-55c5e1b9cb78"/>
 				<textElement>
-					<font size="18"/>
+					<font size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Relatório de fechamento mensal de convênio]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="634" y="43" width="41" height="20" uuid="c2a6ec51-9da0-4f02-9547-1499bd8a4839"/>
+				<reportElement x="630" y="47" width="41" height="20" uuid="c2a6ec51-9da0-4f02-9547-1499bd8a4839"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[Período :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="676" y="43" width="55" height="20" uuid="45b04df3-8b22-4cdf-b413-0580ccc09285"/>
+				<reportElement x="672" y="47" width="55" height="20" uuid="45b04df3-8b22-4cdf-b413-0580ccc09285"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{DataInicio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="750" y="43" width="55" height="20" uuid="32f0123c-0bf3-4f74-b008-6f16494e5281"/>
+				<reportElement x="746" y="47" width="55" height="20" uuid="32f0123c-0bf3-4f74-b008-6f16494e5281"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{DataFim}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="730" y="43" width="21" height="20" uuid="28e12e1d-47d2-4376-9bf4-799b9c39c22f"/>
+				<reportElement x="726" y="47" width="21" height="20" uuid="28e12e1d-47d2-4376-9bf4-799b9c39c22f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
 				<text><![CDATA[ a ]]></text>
 			</staticText>
+			<image>
+				<reportElement x="4" y="0" width="203" height="70" uuid="7c9d9af3-d4aa-4c0a-971d-a590342ab43f"/>
+				<imageExpression><![CDATA["C:\\Users\\jsoliveira\\Documents\\NetBeansProjects\\PayPlug\\src\\main\\webapp\\resources\\imagens\\payplug.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="50">
+		<band height="43">
 			<staticText>
-				<reportElement x="4" y="10" width="58" height="20" uuid="265c37a6-10b2-4b04-945d-5c608fb43538"/>
+				<reportElement x="4" y="10" width="70" height="20" uuid="265c37a6-10b2-4b04-945d-5c608fb43538"/>
 				<textElement>
-					<font size="12"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Empresa : ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="62" y="10" width="293" height="20" uuid="db867694-1372-42c8-a458-279a4254dc63"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="74" y="10" width="281" height="20" uuid="db867694-1372-42c8-a458-279a4254dc63"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{Empresa}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="683" y="30" width="42" height="20" uuid="f9845911-c590-4dfc-9b16-eff0a0f7aa95"/>
+				<reportElement x="683" y="10" width="42" height="20" uuid="f9845911-c590-4dfc-9b16-eff0a0f7aa95"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Total :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="725" y="30" width="77" height="20" uuid="7142c8ad-7d66-4eec-8c80-135cbc4690d5"/>
+				<reportElement x="725" y="10" width="77" height="20" uuid="7142c8ad-7d66-4eec-8c80-135cbc4690d5"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{Total}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="33" width="802" height="1" uuid="0691a3d9-4485-443d-b202-f03dbdd360ec"/>
+			</line>
+			<line>
+				<reportElement x="0" y="4" width="802" height="1" uuid="a78ef551-0fec-4314-befc-cbb2e768d656"/>
+			</line>
 		</band>
 	</columnHeader>
+	<pageFooter>
+		<band height="22">
+			<textField>
+				<reportElement x="764" y="0" width="37" height="20" uuid="c63eee02-6cf6-4d52-8aaf-9b9f99a52db8"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="120" y="0" width="100" height="20" uuid="fbc51554-44ea-40d4-8e25-910a9a1cbbc9"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="119" height="20" uuid="31294361-8cdb-4f9a-893b-100a722ab023"/>
+				<text><![CDATA[Data/Hora da Impressão :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="725" y="0" width="39" height="20" uuid="e900237b-8bec-45c5-acd0-b8842db32a74"/>
+				<text><![CDATA[Página :]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
 	<summary>
 		<band height="125" splitType="Stretch">
 			<elementGroup>
@@ -106,7 +156,7 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="cd9258ad-25ff-47ae-beed-c54775004761"/>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="70" height="25" uuid="cd9258ad-25ff-47ae-beed-c54775004761"/>
 								<textElement textAlignment="Left">
 									<font size="8"/>
 								</textElement>
@@ -120,11 +170,11 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="25" uuid="ef5b0908-9ad6-435d-8d1a-64e31c2caea8"/>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="25" uuid="ef5b0908-9ad6-435d-8d1a-64e31c2caea8"/>
 								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<text><![CDATA[Total nome]]></text>
+								<text><![CDATA[Total]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalRowHeader>
@@ -153,7 +203,7 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="51" forecolor="#FFFFFF" uuid="8d2d5a54-3037-471a-b0fb-2ef9c5da5915"/>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="51" forecolor="#000000" backcolor="#FFFFFF" uuid="8d2d5a54-3037-471a-b0fb-2ef9c5da5915"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -172,7 +222,7 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField pattern="">
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="21" forecolor="#000000" uuid="b5b3918f-3fa8-428c-9816-4b12ab8fcfdf"/>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="21" forecolor="#000000" uuid="b5b3918f-3fa8-428c-9816-4b12ab8fcfdf"/>
 								<textElement>
 									<font size="8"/>
 								</textElement>
@@ -186,7 +236,7 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="21" uuid="aba275ef-d133-4433-9c81-2f90853ed585"/>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="21" uuid="aba275ef-d133-4433-9c81-2f90853ed585"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -218,7 +268,7 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="f7a95096-0e80-4779-b71e-9d37d855d4d3"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" uuid="f7a95096-0e80-4779-b71e-9d37d855d4d3"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
@@ -226,13 +276,13 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="50" columnTotalGroup="ano_da_cobranca">
+				<crosstabCell width="50" height="25" columnTotalGroup="ano_da_cobranca">
 					<cellContents backcolor="#737A80" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="46ed076e-3644-4421-95d9-ec70079f814d"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#003333" uuid="46ed076e-3644-4421-95d9-ec70079f814d"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
@@ -246,7 +296,7 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="4d279192-7748-4313-81d9-d9e40e126f4d"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#000000" uuid="4d279192-7748-4313-81d9-d9e40e126f4d"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
@@ -254,13 +304,13 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="50" columnTotalGroup="mes_da_cobranca">
+				<crosstabCell width="50" height="25" columnTotalGroup="mes_da_cobranca">
 					<cellContents backcolor="#E6F3FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="982651f2-a172-4632-bf5c-f9160d59c313"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" uuid="982651f2-a172-4632-bf5c-f9160d59c313"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
@@ -274,7 +324,7 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="35779394-3810-4322-8f12-5c1a0300c20b"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" uuid="35779394-3810-4322-8f12-5c1a0300c20b"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>

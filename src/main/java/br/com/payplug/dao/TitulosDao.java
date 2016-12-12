@@ -72,9 +72,38 @@ public class TitulosDao extends DAOImp<Integer, Titulos> {
         binds.clear();
         binds.put(1, cnpjEmpresa);
         binds.put(2, sdf.format(dtInicio));
-      
 
         return ConexaoJdbc.getResultSet(SQL.toString(), binds);
 
     }
+
+    public ResultSet relExtratoDuncionario(Date dtInicio, Date dtFim, Integer codUsuario) {
+
+        SQL.setLength(0);
+        SQL.append("SELECT tra.valor_em_real * -1 AS valor, \n");
+        SQL.append("  usu.nome                    AS funcionario, \n");
+        SQL.append("  tra.data_transacao          AS data, \n");
+        SQL.append("  tra.descricao \n");
+        SQL.append("FROM dbo.transacoes tra \n");
+        SQL.append("INNER JOIN dbo.usuarios usu \n");
+        SQL.append("ON (usu.id = tra.id_usuario) \n");
+        SQL.append("INNER JOIN dbo.operacoes op \n");
+        SQL.append("ON (op.id              = tra.id_operacao) \n");
+        SQL.append("WHERE usu.empresa_cnpj = '82.398.124/0001-31' \n");
+        SQL.append("AND tra.valor_em_real  < 0 \n");
+        SQL.append("AND (op.indoperacao    = 'T' \n");
+        SQL.append("OR op.id               = 4) \n");
+        SQL.append("AND tra.data_transacao BETWEEN CONVERT(DATETIME, ?) AND CONVERT(DATETIME, ?) \n");
+        SQL.append("AND tra.id_usuario =? \n");
+        SQL.append("ORDER BY data_transacao;");
+
+        binds.clear();
+        binds.put(1, sdf.format(dtInicio));
+        binds.put(2, sdf.format(dtFim));
+        binds.put(3, codUsuario);
+
+        return ConexaoJdbc.getResultSet(SQL.toString(), binds);
+
+    }
+
 }
