@@ -36,17 +36,17 @@
 
 
                     <p:outputLabel for="empresa" value="Empresa" />
-                    <p:selectOneMenu filter="true" id="empresa" required="true" value="#{relatorioFechamentoBean.usuario}"
+                    <p:selectOneMenu filter="true" id="empresa" required="true" value="#{relatorioExtratoDoFuncionarioBean.empresa}"
                                      converter="simpleIndexConverter"   >
-                        <f:selectItems value="#{relatorioFechamentoBean.empresas}" var="e" itemValue="#{a}" />
-                        <!--<p:ajax event="" listener="" />-->
+                        <f:selectItems value="#{relatorioExtratoDoFuncionarioBean.empresas}" var="empresa" itemValue="#{a}" />
+                        <p:ajax event="change" listener="#{relatorioExtratoDoFuncionarioBean.preencherFuncionarios()}" update="funcionarios"/>
                     </p:selectOneMenu>
 
-                    <p:outputLabel for="funcionario" value="Funcionário*" />
-                    <p:selectOneMenu filter="true" id="funcionario"  >
-                        <f:selectItem itemValue="1"  itemLabel="Empresa 1"/>
-                        <f:selectItem itemValue="2"  itemLabel="Empresa 2"/>
-                        <f:selectItem itemValue="3"  itemLabel="Empresa 3"/>
+                    <p:outputLabel for="funcionarios" value="Funcionário" />
+                    <p:selectOneMenu filter="true" id="funcionarios" required="true" value="#{relatorioExtratoDoFuncionarioBean.funcionario}"
+                                     converter="simpleIndexConverter"   >
+                        <f:selectItems value="#{relatorioExtratoDoFuncionarioBean.funcionarios}" var="cliente" itemValue="#{a}" />
+
                     </p:selectOneMenu>
 
 
