@@ -38,17 +38,11 @@
                     <p:selectOneMenu filter="true" id="empresa" required="true" value="#{relatorioFechamentoBean.empresa}"
                                      converter="simpleIndexConverter"   >
                         <f:selectItems value="#{relatorioFechamentoBean.empresas}" var="e" itemValue="#{a}" />
-                        <p:ajax event="change" listener="#{relatorioFechamentoBean.preencherUsuariosEmpresa()}" update="funcionarios"/>
-                    </p:selectOneMenu>
-
-                    <p:outputLabel for="Funcionários" value="funcionarios" />
-                    <p:selectOneMenu filter="true" id="funcionarios" required="true" value="#{relatorioFechamentoBean.funcionairo}"
-                                     converter="simpleIndexConverter"   >
-                        <f:selectItems value="#{relatorioFechamentoBean.funcionarios}" var="e" itemValue="#{a}" />
-                        
                     </p:selectOneMenu>
 
 
+
+                    <p:commandButton value="Relatório Veiculos Rastreados" action="#{veiculoBean.relVeiculosRastreados}" ajax="false" onclick="this.form.target = '_blank'"/>
 
                 </h:panelGrid>
 

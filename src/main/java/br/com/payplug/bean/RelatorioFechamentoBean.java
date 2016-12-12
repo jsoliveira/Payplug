@@ -1,13 +1,15 @@
 package br.com.payplug.bean;
 
+import br.com.payplug.dao.TitulosDao;
 import br.com.payplug.dao.UsuariosDao;
 import br.com.payplug.enuns.OperadoresJPQL;
 import br.com.payplug.model.Usuarios;
+import br.com.payplug.relatorio.Relatorio;
+import br.com.payplug.tools.ConexaoJdbc;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -23,32 +25,46 @@ public class RelatorioFechamentoBean implements Serializable {
 
     @Inject
     private UsuariosDao uDao;
-
+    
+    @Inject
+    private TitulosDao tDao;
+    
+    @Inject
+    private TitulosDao titulosDao;
+    
+    @Inject
+    private Relatorio relatorio;
+    
+    @Inject
+    private LoginBean loginBean;
+    
     private Date dtInicio;
 
     private Date dtFim;
 
     private Usuarios empresa;
 
-    private Usuarios funcionairo;
-
     private List<SelectItem> empresas;
-    private List<SelectItem> funcionarios;
+    
 
-    @PostConstruct
-    public void init() {
+    public void imprimir(){
+    
 
-        this.funcionarios = new ArrayList<>();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Empresa", "Teste");
+        params.put("DataInicio", "01/01/0001");
+        params.put("DataFim", "01/01/0001");
+        params.put("Total", "500");
+        
+                
+        relatorio.getRelatorio("RelatorioFechamentoSintetico.jasper", params, tDao.relFechamentoSintetico(dtInicio, empresa.getEmpresaCnpj()) );
+        ConexaoJdbc.fechar();
 
+    
+    
     }
 
-    public UsuariosDao getuDao() {
-        return uDao;
-    }
-
-    public void setuDao(UsuariosDao uDao) {
-        this.uDao = uDao;
-    }
+    
 
     public Date getDtInicio() {
         return dtInicio;
@@ -74,21 +90,7 @@ public class RelatorioFechamentoBean implements Serializable {
         this.empresa = empresa;
     }
 
-    public Usuarios getFuncionairo() {
-        return funcionairo;
-    }
-
-    public void setFuncionairo(Usuarios funcionairo) {
-        this.funcionairo = funcionairo;
-    }
-
     public List<SelectItem> getEmpresas() {
-
-        return this.empresas = uDao.getSelectItens("isParceiro", 1, OperadoresJPQL.equals.getOperador(), "nome", Boolean.TRUE);
-
-    }
-
-    public List<SelectItem> getFuncionarios() {
 
         return this.empresas = uDao.getSelectItens("isParceiro", 1, OperadoresJPQL.equals.getOperador(), "nome", Boolean.TRUE);
 
