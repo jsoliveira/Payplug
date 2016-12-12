@@ -5,12 +5,17 @@
  */
 package br.com.payplug.bean;
 
+import br.com.payplug.dao.TitulosDao;
 import br.com.payplug.dao.UsuariosDao;
 import br.com.payplug.enuns.OperadoresJPQL;
 import br.com.payplug.model.Usuarios;
+import br.com.payplug.relatorio.Relatorio;
+import br.com.payplug.tools.ConexaoJdbc;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -24,24 +29,33 @@ import javax.inject.Named;
  */
 @SessionScoped
 @Named
-public class RelatorioExtratoDoFuncionarioBean implements Serializable{
-    
+public class RelatorioExtratoDoFuncionarioBean implements Serializable {
+
     @Inject
     private UsuariosDao uDao;
-        
+
+    @Inject
+    private Relatorio relatorio;
+
+    @Inject
+    private TitulosDao tDao;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
     private Date dtInicio;
 
     private Date dtFim;
-    
+
     private Usuarios usuarios;
-    
+
     private Usuarios empresa;
+
     private Usuarios funcionario;
-    
-    
+
     private List<SelectItem> empresas;
+
     private List<SelectItem> funcionarios;
-    
+
     @PostConstruct
     public void init() {
 
@@ -49,6 +63,16 @@ public class RelatorioExtratoDoFuncionarioBean implements Serializable{
 
     }
 
+    public void imprimir() {
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("MesParametro", sdf.format(dtInicio));
+     
+
+        relatorio.getRelatorio("RelatorioExtratoFuncionario.jasper", params, tDao.relExtratoDuncionario(dtInicio, dtFim,funcionario.getId()));
+        ConexaoJdbc.fechar();
+
+    }
 
     public UsuariosDao getuDao() {
         return uDao;
@@ -82,13 +106,6 @@ public class RelatorioExtratoDoFuncionarioBean implements Serializable{
         this.usuarios = usuarios;
     }
 
-    public void gerarRelatorio(){
-        
-    } 
-    
-    
-    
-    
     public List<SelectItem> getEmpresas() {
 
         return this.empresas = uDao.getSelectItens("isParceiro", 1, OperadoresJPQL.equals.getOperador(), "nome", Boolean.TRUE);
@@ -105,7 +122,6 @@ public class RelatorioExtratoDoFuncionarioBean implements Serializable{
         return funcionarios;
     }
 
-    
     public void setFuncionarios(List<SelectItem> funcionarios) {
         this.funcionarios = funcionarios;
     }
@@ -126,7 +142,4 @@ public class RelatorioExtratoDoFuncionarioBean implements Serializable{
         this.funcionario = funcionario;
     }
 
-    
-
-    
 }

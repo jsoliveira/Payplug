@@ -30,17 +30,18 @@ public class LoginBean implements Serializable{
   public void doLogin() {
         try {
 
-            usuario = uDao.findUser(email, senha);
+            ///usuario = uDao.findUser(email, senha);
+            usuario = uDao.getById(1);
 
-            if (usuario == null) {
-
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção:", "Usuário e/ou Senha incorreto(s)."));
-                return;
-
-            }
+//            if (usuario == null) {
+//
+//                FacesContext.getCurrentInstance().addMessage(null,
+//                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção:", "Usuário e/ou Senha incorreto(s)."));
+//                return;
+//
+//            }
            
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/Paypal/interno/index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/PayPlug/interno/index.xhtml");
             
 
         } catch (IOException ex) {
@@ -54,7 +55,7 @@ public class LoginBean implements Serializable{
 
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/Paypal/login.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/PayPlug/login.xhtml");
 
         } catch (IOException ex) {
             FacesContext.getCurrentInstance().addMessage(null,

@@ -52,8 +52,9 @@
 
                 </h:panelGrid>
 
-                <p:commandButton  value="Gerar Relatório "  icon="fa icon-print Fs15 white" actionListener="#{relatorioExtratoDoFuncionarioBean.gerarRelatorio()}" 
-                                  title="Gerar Relatório" update="@form"/>
+                 <p:commandButton value="Relatório" action="#{relatorioExtratoDoFuncionarioBean.imprimir()}" ajax="false" onclick="this.form.target = '_blank'"/>
+<!--                <p:commandButton  value="Gerar Relatório "  icon="fa icon-print Fs15 white" actionListener="#{relatorioExtratoDoFuncionarioBean.imprimir()}" 
+                                  title="Gerar Relatório" update="@form"/>-->
             </h:form>
         </div>
     </ui:define>

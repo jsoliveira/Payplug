@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioExtratoFuncionario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="28c70781-f347-441a-9757-8c10a45fe5ac">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioExtratoFuncionario" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="28c70781-f347-441a-9757-8c10a45fe5ac">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="694"/>
+	<property name="ireport.y" value="205"/>
 	<parameter name="MesParametro" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select
@@ -29,9 +29,9 @@ order by data_transacao;]]>
 		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
 	</variable>
 	<title>
-		<band height="52" splitType="Stretch">
+		<band height="84" splitType="Stretch">
 			<staticText>
-				<reportElement x="119" y="0" width="307" height="20" uuid="cb150a34-ff0b-472a-bc4e-3ae14a9b135c"/>
+				<reportElement x="155" y="32" width="244" height="20" uuid="cb150a34-ff0b-472a-bc4e-3ae14a9b135c"/>
 				<textElement>
 					<font size="15" isBold="true"/>
 				</textElement>
@@ -45,20 +45,24 @@ order by data_transacao;]]>
 				<text><![CDATA[Mês:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="32" width="72" height="20" uuid="f9b24162-c3e3-4776-b2b8-3d63e1a1fd8d"/>
+				<reportElement x="0" y="64" width="72" height="20" uuid="f9b24162-c3e3-4776-b2b8-3d63e1a1fd8d"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Funcionário:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="72" y="32" width="284" height="20" uuid="033f3258-42a7-40de-939a-2f5c3df40f92"/>
+				<reportElement x="72" y="64" width="284" height="20" uuid="033f3258-42a7-40de-939a-2f5c3df40f92"/>
 				<textFieldExpression><![CDATA[$F{funcionario}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="459" y="0" width="96" height="20" uuid="1268724b-1f97-4f1d-b972-abff07eb73d0"/>
 				<textFieldExpression><![CDATA[$P{MesParametro}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="0" y="0" width="155" height="64" uuid="262876e3-9646-4f21-a6e9-0087416c968c"/>
+				<imageExpression><![CDATA["C:\\Users\\jsoliveira\\Documents\\NetBeansProjects\\PayPlug\\src\\main\\webapp\\resources\\imagens\\payplug.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<columnHeader>
@@ -120,8 +124,20 @@ order by data_transacao;]]>
 	<pageFooter>
 		<band height="26">
 			<textField>
-				<reportElement x="232" y="0" width="100" height="20" uuid="c9838cbf-7e80-43f0-9745-c4598884bf01"/>
+				<reportElement x="527" y="6" width="28" height="20" uuid="c9838cbf-7e80-43f0-9745-c4598884bf01"/>
 				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="487" y="6" width="40" height="20" uuid="8006cbc2-4b06-4ef4-8101-f0f45703acdf"/>
+				<text><![CDATA[Página :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="6" width="118" height="20" uuid="ff3eaf4f-63a1-4e20-bf71-d44253d4ead9"/>
+				<text><![CDATA[Data/Hora da Impressão :]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="118" y="6" width="100" height="20" uuid="3953fe26-e77d-45fa-8641-2e554424d06e"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
