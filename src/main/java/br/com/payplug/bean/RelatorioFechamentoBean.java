@@ -7,6 +7,7 @@ import br.com.payplug.model.Usuarios;
 import br.com.payplug.relatorio.Relatorio;
 import br.com.payplug.tools.ConexaoJdbc;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,8 @@ public class RelatorioFechamentoBean implements Serializable {
     @Inject
     private LoginBean loginBean;
     
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    
     private Date dtInicio;
 
     private Date dtFim;
@@ -49,19 +52,15 @@ public class RelatorioFechamentoBean implements Serializable {
 
     public void imprimir(){
     
-
         HashMap<String, Object> params = new HashMap<>();
-        params.put("Empresa", "Teste");
-        params.put("DataInicio", "01/01/0001");
-        params.put("DataFim", "01/01/0001");
+        params.put("Empresa", empresa.getNome());
+        params.put("DataInicio", sdf.format(dtInicio));
+        params.put("DataFim", sdf.format(new Date()));
         params.put("Total", "500");
-        
-                
+                        
         relatorio.getRelatorio("RelatorioFechamentoSintetico.jasper", params, tDao.relFechamentoSintetico(dtInicio, empresa.getCpfCnpj()) );
         ConexaoJdbc.fechar();
-
-    
-    
+        
     }
 
     
