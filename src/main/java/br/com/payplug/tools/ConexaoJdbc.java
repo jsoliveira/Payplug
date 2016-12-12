@@ -20,7 +20,7 @@ public class ConexaoJdbc {
     private static ResultSet r;
     private static PreparedStatement ps;
     private static Connection c;
-    private static final String conectionPoll = "PayPlug";
+    private static final String conectionPoll = "java:app/PayPLugJNDI";
     private static int contador;
 
     private static DataSource dtSource;
