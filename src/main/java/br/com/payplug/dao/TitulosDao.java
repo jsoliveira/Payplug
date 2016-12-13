@@ -103,13 +103,17 @@ public class TitulosDao extends DAOImp<Integer, Titulos> {
             binds.put(1, cnpjEmpresa);
             binds.put(2, sdf.format(dtInicio));
             
-            String teste = sdfMes.format(dtInicio);
-            
             binds.put(3, sdfMes.format(dtInicio));
 
             ResultSet rs = ConexaoJdbc.getResultSet(SQL.toString(), binds);
-            rs.first();
-            return rs.getDouble("total_mes");
+            
+            double total = 0;
+            
+            while(rs.next()){
+                total += rs.getDouble("total_mes");
+                
+            }
+            return total;
         } catch (Exception e) {
             return Double.valueOf(0);
         }
