@@ -32,24 +32,16 @@
 
                     </p:calendar>
 
-<!--                    <p:selectOneMenu filter="true"  >
-                        <f:selectItem itemValue="1"  itemLabel="Empresa 1"/>
-                        <f:selectItem itemValue="2"  itemLabel="Empresa 2"/>
-                        <f:selectItem itemValue="3"  itemLabel="Empresa 3"/>
-                    </p:selectOneMenu>
-
-
-                    <p:selectOneMenu filter="true"  >
-                        <f:selectItem itemValue="1"  itemLabel="Funcionario 1"/>
-                        <f:selectItem itemValue="2"  itemLabel="Funcionario 2"/>
-                        <f:selectItem itemValue="3"  itemLabel="Funcionario 3"/>
-                    </p:selectOneMenu>-->
-
-
                 </h:panelGrid>
 
-                <p:commandButton  value="Calcular Títulos do Período "  icon="fa icon-print Fs15 white" actionListener="#{titulosBean.calcularTitulos()}" 
+                <p:commandButton id="btnGerarTitulos"  value="Calcular Títulos do Período "  icon="fa icon-print Fs15 white" actionListener="#{titulosBean.calcularTitulos()}" 
                                   title="Calcular Tìtulos no Período" update="@form"/>
+                
+                
+                <p:blockUI block="formTitulos" trigger="formTitulos:btnGerarTitulos">
+                    LOADING<br/>
+                    <p:graphicImage name="/imagens/ajax-loader1.gif"/>
+                </p:blockUI>
 
 
             </h:form>

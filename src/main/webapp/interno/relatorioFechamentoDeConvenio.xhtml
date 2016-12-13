@@ -21,14 +21,19 @@
                                 readonlyInput="true"
                                 showOn="both"
                                 />
-                    
+
                     <p:outputLabel for="empresa" value="Empresa" />
                     <p:selectOneMenu filter="true" id="empresa" required="true" value="#{relatorioFechamentoBean.empresa}"
                                      converter="simpleIndexConverter"   >
                         <f:selectItems value="#{relatorioFechamentoBean.empresas}" var="e" itemValue="#{a}" />
                     </p:selectOneMenu>
 
-                    <p:commandButton value="Relatório" action="#{relatorioFechamentoBean.imprimir()}" ajax="false" onclick="this.form.target = '_blank'"/>
+                    <p:commandButton id="btnRelatorio" value="Relatório" action="#{relatorioFechamentoBean.imprimir()}" ajax="false" onclick="this.form.target = '_blank'"/>
+
+                    <p:blockUI block="formTitulos" trigger="formTitulos:btnRelatorio">
+                        LOADING<br/>
+                        <p:graphicImage name="/imagens/ajax-loader1.gif"/>
+                    </p:blockUI>
 
                 </h:panelGrid>
 
