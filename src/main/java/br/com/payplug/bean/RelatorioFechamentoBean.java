@@ -54,7 +54,7 @@ public class RelatorioFechamentoBean implements Serializable {
         params.put("Empresa", empresa.getNome());
         params.put("DataInicio", sdf.format(dtInicio));
         params.put("DataFim", sdf.format(new Date()));
-        params.put("Total", "500");
+        params.put("Total", tDao.relTotalFechamentoSintetico(dtInicio, empresa.getCpfCnpj()));
                         
         relatorio.getRelatorio("RelatorioFechamentoSintetico.jasper", params, tDao.relFechamentoSintetico(dtInicio, empresa.getCpfCnpj()) );
         ConexaoJdbc.fechar();

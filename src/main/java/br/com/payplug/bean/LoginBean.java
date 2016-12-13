@@ -1,9 +1,11 @@
 package br.com.payplug.bean;
 
+import br.com.payplug.dao.TitulosDao;
 import br.com.payplug.dao.UsuariosDao;
 import br.com.payplug.model.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -21,7 +23,7 @@ public class LoginBean implements Serializable{
     
     @Inject
     private UsuariosDao uDao;
-    
+
     private String email;
     private String senha;
     
@@ -29,7 +31,7 @@ public class LoginBean implements Serializable{
     
   public void doLogin() {
         try {
-
+            
             ///usuario = uDao.findUser(email, senha);
             usuario = uDao.getById(1);
 
