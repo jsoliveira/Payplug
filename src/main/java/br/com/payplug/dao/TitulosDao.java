@@ -49,7 +49,7 @@ public class TitulosDao extends DAOImp<Integer, Titulos> {
         SQL.append("SELECT SUM(tit.val_titulo) AS total_mes, \n");
         SQL.append("  usu.nome, \n");
         SQL.append("  MONTH(tit.dat_titulo)          AS mes_da_cobranca, \n");
-        SQL.append("  DATENAME(MONTH,tit.dat_titulo) AS mes_cobranca, \n");
+//        SQL.append("  DATENAME(MONTH,tit.dat_titulo) AS mes_cobranca, \n");
         SQL.append("  YEAR(tit.dat_titulo)           AS ano_da_cobranca, \n");
         SQL.append("  MONTH(tra.data_transacao)      AS mes_do_gasto, \n");
         SQL.append("  YEAR(tra.data_transacao)       AS ano_do_gasto \n");

@@ -2,19 +2,18 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioFechamentoSintetico" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="78526f8a-4cdf-45c8-9111-a752fec6cc57">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="131"/>
+	<property name="ireport.y" value="232"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="Empresa" class="java.lang.String"/>
 	<parameter name="DataInicio" class="java.lang.String"/>
 	<parameter name="DataFim" class="java.lang.String"/>
-	<parameter name="Total" class="java.lang.Double">
-		<defaultValueExpression><![CDATA[252]]></defaultValueExpression>
-	</parameter>
+	<parameter name="Total" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select
 sum(tit.val_titulo) as total_mes,
 usu.nome,
 MONTH(tit.dat_titulo) as mes_da_cobranca,
+DATENAME(MONTH,tit.dat_titulo) as mes_cobranca,
 YEAR(tit.dat_titulo) as ano_da_cobranca,
 MONTH(tra.data_transacao) as mes_do_gasto,
 YEAR(tra.data_transacao) as ano_do_gasto
@@ -22,16 +21,17 @@ from dbo.titulos tit
 inner join dbo.transacoes tra on (tra.id = tit.id_transacao)
 inner join dbo.usuarios usu on (usu.id = tra.id_usuario)
 where usu.empresa_cnpj = '82.398.124/0001-31'
-and tit.dat_titulo >= convert(datetime, '20160401')
-and tit.dat_titulo <= convert(datetime, '20161001')
+and tit.dat_titulo >= convert(datetime, '20160501')
+--and tit.dat_titulo <= convert(datetime, '20160601')
 group by usu.nome, MONTH(tit.dat_titulo), YEAR(tit.dat_titulo),
-MONTH(tra.data_transacao), YEAR(tra.data_transacao)
+MONTH(tra.data_transacao), YEAR(tra.data_transacao),DATENAME(MONTH,tit.dat_titulo)
 order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 ;]]>
 	</queryString>
 	<field name="total_mes" class="java.math.BigDecimal"/>
 	<field name="nome" class="java.lang.String"/>
 	<field name="mes_da_cobranca" class="java.lang.Integer"/>
+	<field name="mes_cobranca" class="java.lang.String"/>
 	<field name="ano_da_cobranca" class="java.lang.Integer"/>
 	<field name="mes_do_gasto" class="java.lang.Integer"/>
 	<field name="ano_do_gasto" class="java.lang.Integer"/>
@@ -104,21 +104,24 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 				</textElement>
 				<text><![CDATA[Total :]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="725" y="10" width="77" height="20" uuid="7142c8ad-7d66-4eec-8c80-135cbc4690d5"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Total}]]></textFieldExpression>
+			</textField>
 			<line>
 				<reportElement x="0" y="33" width="802" height="1" uuid="0691a3d9-4485-443d-b202-f03dbdd360ec"/>
 			</line>
 			<line>
 				<reportElement x="0" y="4" width="802" height="1" uuid="a78ef551-0fec-4314-befc-cbb2e768d656"/>
 			</line>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="727" y="10" width="74" height="20" uuid="9e03d1fb-a3c9-4a9f-a0d0-e18a43d6b26d"/>
-				<textFieldExpression><![CDATA[$P{Total}]]></textFieldExpression>
-			</textField>
 		</band>
 	</columnHeader>
 	<pageFooter>
 		<band height="22">
-			<textField pattern="¤ #,##0.00">
+			<textField>
 				<reportElement x="764" y="0" width="37" height="20" uuid="c63eee02-6cf6-4d52-8aaf-9b9f99a52db8"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -137,61 +140,27 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="136" splitType="Stretch">
+		<band height="125" splitType="Stretch">
 			<elementGroup>
 				<elementGroup/>
 			</elementGroup>
-			<elementGroup/>
 			<crosstab>
-				<reportElement x="0" y="0" width="802" height="136" uuid="dd9fcdba-7c8f-4562-9fc1-9e6770e0755a"/>
-				<rowGroup name="nome" width="99" totalPosition="End">
+				<reportElement x="0" y="0" width="802" height="125" uuid="b730aada-471c-4b87-ba87-046467d2a78a"/>
+				<rowGroup name="nome" width="70" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{nome}]]></bucketExpression>
 					</bucket>
 					<crosstabRowHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<cellContents backcolor="#C3CFD9" mode="Opaque">
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="99" height="35" uuid="a0dc48b9-8116-4743-b056-1d2f8ea07960"/>
-								<textElement verticalAlignment="Middle">
-									<font size="8" isBold="true"/>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="70" height="25" uuid="cd9258ad-25ff-47ae-beed-c54775004761"/>
+								<textElement textAlignment="Left">
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{nome}]]></textFieldExpression>
-							</textField>
-						</cellContents>
-					</crosstabRowHeader>
-					<crosstabTotalRowHeader>
-						<cellContents backcolor="#6093BF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<staticText>
-								<reportElement x="0" y="0" width="145" height="28" uuid="2186f074-2b5b-4074-be90-97463aa0d9dc"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8" isItalic="true"/>
-								</textElement>
-								<text><![CDATA[Total Geral]]></text>
-							</staticText>
-						</cellContents>
-					</crosstabTotalRowHeader>
-				</rowGroup>
-				<rowGroup name="mes_do_gasto" width="46" totalPosition="End">
-					<bucket class="java.lang.Integer">
-						<bucketExpression><![CDATA[$F{mes_do_gasto}]]></bucketExpression>
-					</bucket>
-					<crosstabRowHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
-							<box>
-								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-							</box>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="46" height="17" uuid="fc1bfd94-297d-42e8-baaa-3194b17f1f06"/>
-								<textElement verticalAlignment="Middle">
-									<font size="8" isBold="true"/>
-								</textElement>
-								<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("MMM").format(new SimpleDateFormat("yyyy/MM/dd").parse("1970/" + $V{mes_do_gasto}.toString() + "/01"))]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabRowHeader>
@@ -201,9 +170,9 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="46" height="17" uuid="d46cd412-caef-4532-9ddd-5dec3747eaef"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8" isBold="true"/>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="25" uuid="ef5b0908-9ad6-435d-8d1a-64e31c2caea8"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="8"/>
 								</textElement>
 								<text><![CDATA[Total]]></text>
 							</staticText>
@@ -215,12 +184,12 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 						<bucketExpression><![CDATA[$F{ano_da_cobranca}]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<cellContents backcolor="#FFFFFF" mode="Opaque">
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="83" height="30" uuid="63497878-0655-43f6-bc80-6198ffc3eff1"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="30" uuid="384ccac3-6734-413e-ad8c-0fdb991c04a4"/>
 								<textElement>
 									<font size="8"/>
 								</textElement>
@@ -229,33 +198,33 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 						</cellContents>
 					</crosstabColumnHeader>
 					<crosstabTotalColumnHeader>
-						<cellContents backcolor="#6093BF" mode="Opaque">
+						<cellContents backcolor="#737A80" mode="Opaque">
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="34" height="60" uuid="1df91ead-03dc-4037-bfa6-e5c383d750db"/>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="51" forecolor="#000000" backcolor="#FFFFFF" uuid="8d2d5a54-3037-471a-b0fb-2ef9c5da5915"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<text><![CDATA[Total Geral]]></text>
+								<text><![CDATA[Total]]></text>
 							</staticText>
 						</cellContents>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
-				<columnGroup name="mes_da_cobranca" height="30" totalPosition="End">
+				<columnGroup name="mes_da_cobranca" height="21" totalPosition="End">
 					<bucket class="java.lang.Integer">
 						<bucketExpression><![CDATA[$F{mes_da_cobranca}]]></bucketExpression>
 					</bucket>
 					<crosstabColumnHeader>
-						<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<cellContents backcolor="#C3CFD9" mode="Opaque">
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="42" height="30" uuid="50903b67-d407-42b3-8671-ef65a274df5c"/>
-								<textElement verticalAlignment="Middle">
-									<font size="8" isBold="true"/>
+							<textField pattern="">
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="21" forecolor="#000000" uuid="b5b3918f-3fa8-428c-9816-4b12ab8fcfdf"/>
+								<textElement>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("MMM").format(new SimpleDateFormat("yyyy/MM/dd").parse("1970/" + $V{mes_da_cobranca}.toString() + "/01"))]]></textFieldExpression>
 							</textField>
@@ -267,9 +236,9 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="41" height="30" uuid="210cb5cf-9415-47f4-9dec-133bf42ee86e"/>
-								<textElement verticalAlignment="Middle">
-									<font size="8" isBold="true"/>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="21" uuid="aba275ef-d133-4433-9c81-2f90853ed585"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
 								</textElement>
 								<text><![CDATA[Total Ano]]></text>
 							</staticText>
@@ -279,13 +248,13 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 				<measure name="total_mesMeasure" class="java.math.BigDecimal" calculation="Sum">
 					<measureExpression><![CDATA[$F{total_mes}]]></measureExpression>
 				</measure>
-				<crosstabCell width="42" height="17">
+				<crosstabCell width="50" height="25">
 					<cellContents>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="42" height="17" uuid="69c3a1ae-4a66-46ce-abca-1a71dc850661"/>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="630b03f4-de30-408f-ab5f-3b4d795abf9d"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
@@ -293,55 +262,13 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="42" height="28" rowTotalGroup="nome">
-					<cellContents backcolor="#6093BF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="42" height="28" uuid="f5e3c678-b826-4aac-a312-99804838c287"/>
-							<textElement textAlignment="Right">
-								<font size="8"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{total_mesMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="34" height="17" columnTotalGroup="ano_da_cobranca">
-					<cellContents backcolor="#6093BF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="34" height="17" uuid="bf8c3123-10de-4c4f-84f9-cec79b1e4cf9"/>
-							<textElement textAlignment="Right">
-								<font size="8"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{total_mesMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="34" height="28" rowTotalGroup="nome" columnTotalGroup="ano_da_cobranca">
-					<cellContents backcolor="#6093BF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="34" height="28" uuid="0d09b37c-9ff1-4cb9-b11f-d17ce31db270"/>
-							<textElement textAlignment="Right">
-								<font size="8"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{total_mesMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="41" height="17" columnTotalGroup="mes_da_cobranca">
+				<crosstabCell height="25" rowTotalGroup="nome">
 					<cellContents backcolor="#E6F3FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="41" height="17" uuid="f9d538e9-4f8c-4210-8ec4-51ddc2177167"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" uuid="f7a95096-0e80-4779-b71e-9d37d855d4d3"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
@@ -349,13 +276,13 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="41" height="28" rowTotalGroup="nome" columnTotalGroup="mes_da_cobranca">
-					<cellContents backcolor="#6093BF" mode="Opaque">
+				<crosstabCell width="50" height="25" columnTotalGroup="ano_da_cobranca">
+					<cellContents backcolor="#737A80" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="41" height="28" uuid="eead1f9c-41a5-48b5-ae74-d399e20f254e"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#003333" uuid="46ed076e-3644-4421-95d9-ec70079f814d"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
@@ -363,13 +290,27 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="42" height="18" rowTotalGroup="mes_do_gasto">
+				<crosstabCell rowTotalGroup="nome" columnTotalGroup="ano_da_cobranca">
+					<cellContents backcolor="#737A80" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="¤ #,##0.00">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#000000" uuid="4d279192-7748-4313-81d9-d9e40e126f4d"/>
+							<textElement textAlignment="Right">
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{total_mesMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" height="25" columnTotalGroup="mes_da_cobranca">
 					<cellContents backcolor="#E6F3FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="42" height="17" uuid="51b9211c-9aeb-431b-b2f1-b53cb557561c"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" uuid="982651f2-a172-4632-bf5c-f9160d59c313"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
@@ -377,27 +318,13 @@ order by YEAR(tit.dat_titulo), MONTH(tit.dat_titulo)
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="34" height="18" rowTotalGroup="mes_do_gasto" columnTotalGroup="ano_da_cobranca">
-					<cellContents backcolor="#6093BF" mode="Opaque">
-						<box>
-							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
-						</box>
-						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="34" height="17" uuid="b2b9bb1b-aa9f-40cd-9e2c-d7f56d3152d3"/>
-							<textElement textAlignment="Right">
-								<font size="8"/>
-							</textElement>
-							<textFieldExpression><![CDATA[$V{total_mesMeasure}]]></textFieldExpression>
-						</textField>
-					</cellContents>
-				</crosstabCell>
-				<crosstabCell width="41" height="18" rowTotalGroup="mes_do_gasto" columnTotalGroup="mes_da_cobranca">
+				<crosstabCell width="50" rowTotalGroup="nome" columnTotalGroup="mes_da_cobranca">
 					<cellContents backcolor="#E6F3FF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField pattern="¤ #,##0.00">
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="41" height="17" uuid="e4b609d3-b09e-47bf-88d2-f1994340ee76"/>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" uuid="35779394-3810-4322-8f12-5c1a0300c20b"/>
 							<textElement textAlignment="Right">
 								<font size="8"/>
 							</textElement>
